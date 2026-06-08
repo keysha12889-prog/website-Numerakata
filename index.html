@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numerakata — Matematika & Bahasa Indonesia</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=Literata:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="logo-tag">✦ Kuis Cepat</div>
+  <h1>Numerakata</h1>
+  <p class="subtitle">Matematika &amp; Bahasa Indonesia — uji kemampuanmu!</p>
+</header>
+
+<!-- Scorebar -->
+<div class="scorebar">
+  <div class="stat-pill"><span class="dot dot-yellow"></span>Soal: <strong id="totalCount">0</strong></div>
+  <div class="stat-pill"><span class="dot dot-green"></span>Benar: <strong id="correctCount">0</strong></div>
+  <div class="stat-pill"><span class="dot dot-red"></span>Salah: <strong id="wrongCount">0</strong></div>
+  <div class="stat-pill"><span class="dot dot-blue"></span>Skor: <strong id="scoreVal">0%</strong></div>
+</div>
+
+<!-- Lives -->
+<div class="lives-bar" id="livesBar">
+  <span class="lives-label">Nyawa</span>
+  <div class="lives-icons">
+    <span class="heart" id="heart0"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color:#e25d5d;filter:drop-shadow(0 0 5px rgba(226,93,93,.5))"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+    <span class="heart" id="heart1"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color:#e25d5d;filter:drop-shadow(0 0 5px rgba(226,93,93,.5))"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+    <span class="heart" id="heart2"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color:#e25d5d;filter:drop-shadow(0 0 5px rgba(226,93,93,.5))"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="filterCategory('semua',this)"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;vertical-align:middle"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><circle cx="16" cy="8" r="1.5" fill="currentColor"/><circle cx="8" cy="16" r="1.5" fill="currentColor"/><circle cx="16" cy="16" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg> Campuran</button>
+    <div class="tab-divider"></div>
+    <button class="tab-btn tab-math" onclick="filterCategory('aritmetika',this)">Aritmetika</button>
+    <button class="tab-btn tab-math" onclick="filterCategory('aljabar',this)">Aljabar</button>
+    <button class="tab-btn tab-math" onclick="filterCategory('geometri',this)">Geometri</button>
+    <button class="tab-btn tab-math" onclick="filterCategory('statistika',this)">Statistika</button>
+    <button class="tab-btn tab-math" onclick="filterCategory('kombinatorika',this)">Kombinatorika</button>
+    <div class="tab-divider"></div>
+    <button class="tab-btn tab-indo" onclick="filterCategory('teks',this)">Teks &amp; Wacana</button>
+    <button class="tab-btn tab-indo" onclick="filterCategory('kebahasaan',this)">Kebahasaan</button>
+    <button class="tab-btn tab-indo" onclick="filterCategory('ejaan',this)">Ejaan &amp; EYD</button>
+    <button class="tab-btn tab-indo" onclick="filterCategory('sastra',this)">Karya Sastra</button>
+    <button class="tab-btn tab-indo" onclick="filterCategory('menulis',this)">Menulis &amp; Retorika</button>
+  </div>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-label"><span style="display:flex;align-items:center;gap:5px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>Progres</span><span id="progressLabel">0 / 0</span></div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<!-- Start Screen -->
+<div id="startScreen" class="start-screen">
+  <div class="start-card">
+    <div class="start-icon"><svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+    <h2 class="start-title">Siap Memulai?</h2>
+    <p class="start-desc">Kamu akan mengerjakan <strong id="startTotal">0</strong> soal.<br>Setiap soal punya waktu <strong>30 detik</strong>.</p>
+    <ul class="start-rules">
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg>Jawab sebelum waktu habis</li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#e25d5d" stroke="none" style="margin-right:6px;vertical-align:middle"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>3 nyawa — salah atau timeout = -1 nyawa</li>
+      <li><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>Skor dihitung dari jawaban benar</li>
+    </ul>
+    <button class="btn btn-start" onclick="startQuiz()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="margin-right:6px;vertical-align:middle"><polygon points="5 3 19 12 5 21 5 3"/></svg>Mulai Kuis</button>
+  </div>
+</div>
+
+<!-- Warning Toast -->
+<div id="warningToast" class="warning-toast"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Tekan <strong>Mulai Kuis</strong> terlebih dahulu!</div>
+
+<!-- Question Area -->
+<div class="question-area" id="questionArea">
+  <div class="timer-wrap" id="timerWrap">
+    <div class="timer-ring" id="timerRing">
+      <svg viewBox="0 0 52 52">
+        <circle class="bg" cx="26" cy="26" r="22"/>
+        <circle class="fill" id="timerCircle" cx="26" cy="26" r="22"/>
+      </svg>
+      <div class="timer-num" id="timerNum">30</div>
+    </div>
+    <div class="timer-label">
+      <strong id="timerMsg">Waktu Tersisa</strong>
+      Jawab sebelum waktu habis!
+    </div>
+  </div>
+
+  <div class="q-card" id="qCard">
+    <div class="q-meta">
+      <span class="q-num" id="qNum">SOAL 1</span>
+      <span class="q-category" id="qCat">—</span>
+      <span class="q-diff" id="qDiff">—</span>
+    </div>
+    <p class="q-text" id="qText">Memuat soal...</p>
+    <code class="q-formula" id="qFormula" style="display:none"></code>
+  </div>
+
+  <div class="options" id="optionsGrid"></div>
+
+  <div class="feedback" id="feedback">
+    <span id="fbMsg"></span>
+    <div class="explanation" id="fbExp"></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" onclick="nextQuestion()">Soal Berikutnya <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;vertical-align:middle"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+  </div>
+</div>
+
+<!-- Game Over -->
+<div class="gameover-screen" id="gameoverScreen">
+  <div class="gameover-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--danger)"><circle cx="12" cy="11" r="8"/><path d="M9.5 11a2.5 2.5 0 1 1 5 0"/><line x1="9" y1="15" x2="9.01" y2="15"/><line x1="15" y1="15" x2="15.01" y2="15"/><path d="M10 19v2"/><path d="M14 19v2"/><path d="M8 19h8"/></svg></div>
+  <div class="gameover-title">Game Over!</div>
+  <div class="gameover-sub">Nyawamu habis. Tetap semangat!</div>
+  <div class="gameover-stats">
+    <div class="gameover-stat"><strong id="goCorrect">0</strong>Benar</div>
+    <div class="gameover-stat"><strong id="goWrong">0</strong>Salah</div>
+    <div class="gameover-stat"><strong id="goTotal">0</strong>Terjawab</div>
+  </div>
+  <button class="btn btn-primary" onclick="restartQuiz()"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.85"/></svg>Coba Lagi</button>
+</div>
+
+<!-- Result -->
+<div class="result-screen" id="resultScreen">
+  <div class="result-emoji" id="resultEmoji">🎯</div>
+  <div class="result-title" id="resultTitle">Selesai!</div>
+  <div class="result-score" id="resultScore">0 / 0</div>
+  <div class="result-detail" id="resultDetail">—</div>
+  <button class="btn btn-primary" onclick="restartQuiz()"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.85"/></svg>Ulangi Kuis</button>
+</div>
+
+</div><!-- /container -->
+
+<script src="script.js"></script>
+</body>
+</html>
